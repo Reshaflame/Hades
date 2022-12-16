@@ -15,20 +15,33 @@ enum Direction
 class Room
 {
 public:
+
+	// Almog:
 	Room();
 	~Room();
+
+	char* getName();
+	int getNumOfItems();
+	int getNumOfMonsters();
+
+	void printRoom();
+
+	bool addItem(char* name);
+	bool addMonster(char* name);
+
+	bool connectRoom(Room* room, Direction direction);
 
 private:
 	const char* name;
 	Item* items;
 	Monster* monsters;
-	Room* north = nullptr;
-	Room* east = nullptr;
-	Room* south = nullptr;
-	Room* west = nullptr;
+	Room* north;
+	Room* east;
+	Room* south;
+	Room* west;
 
-	int num_of_items = 0;
-	int num_of_monsters = 0;
+	int num_of_items;
+	int num_of_monsters;
 };
 
 Room::Room()

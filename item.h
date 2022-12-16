@@ -11,8 +11,15 @@ enum Rarity
 class Item
 {
 public:
+
+	// Esty:
 	Item();
 	~Item();
+
+	Rarity getRarity();
+	char* getName();
+
+	// operator++
 
 private:
 	Rarity(common);

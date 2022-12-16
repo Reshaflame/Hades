@@ -3,8 +3,16 @@
 class Monster
 {
 public:
+
+	// Esty:
 	Monster();
 	~Monster();
+
+	int getLevel();
+	char* getName();
+
+
+	// operator++
 
 private:
 	const char* name;

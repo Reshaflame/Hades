@@ -5,10 +5,25 @@
 class Map
 {
 public:
+
+	// Esty:
 	Map();
 	~Map();
 
 	
+	void printMap();
+
+	char* getName();
+	int getNumOfRooms();
+	Room* getCurrRoom();
+
+	Room* addRoom(Room* room, Direction direction);
+
+	bool addItemToCurrRoom(char* name);
+	bool addMosterToCurrRoom(char* name);
+
+	Direction whatIsEmpty();
+
 	// HARD!
 	Map& operator+=(const Map& map_to_add);
 	friend Map operator+(Map l_map, const Map& r_map)
@@ -22,6 +37,7 @@ private:
 	const char* name;
 	Room* rooms;
 	Room** romms_array;
+	Room* currentRoom;
 
 	int num_of_rooms = 0;
 };

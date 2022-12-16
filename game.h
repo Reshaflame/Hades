@@ -6,6 +6,8 @@
 class Game
 {
 public:
+
+	// Almog:
 	Game();
 	~Game();
 	
@@ -20,6 +22,8 @@ public:
 	bool addMonsterToRoom(char* m_name);
 	bool addItemToDataRoom(char* r_name, char* i_name);
 	bool addMonsterToDataRoom(char* r_name, char* m_name);
+	void printData(); // prints only maps and rooms names.
+
 	// ?
 	Map* CombineCurrMapToMap(char* m_name); // (operator+=)
 	Map* CombineMapsToNew(char* new_m_name, char* m_name); // (operator+)

@@ -20,12 +20,14 @@ public:
 	Room();
 	~Room();
 
+	// Almog:
 	char* getName();
 	int getNumOfItems();
 	int getNumOfMonsters();
 
 	void printRoom();
 
+	// Esty:
 	bool addItem(char* name);
 	bool addMonster(char* name);
 

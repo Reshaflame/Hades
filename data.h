@@ -34,11 +34,3 @@ private:
 	Map* maps;
 	Room* rooms;
 };
-
-Data::Data()
-{
-}
-
-Data::~Data()
-{
-}

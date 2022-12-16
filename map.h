@@ -10,7 +10,7 @@ public:
 	Map();
 	~Map();
 
-	
+	// Almog
 	void printMap();
 
 	char* getName();
@@ -18,7 +18,8 @@ public:
 	Room* getCurrRoom();
 
 	Room* addRoom(Room* room, Direction direction);
-
+	
+	// Esty:
 	bool addItemToCurrRoom(char* name);
 	bool addMosterToCurrRoom(char* name);
 

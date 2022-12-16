@@ -77,4 +77,42 @@ Room* Data::getRoom(char* r_name)
 	}
 	return nullptr;
 }
+bool Data::addItem(char* r_name, char* i_name)
+{
+	for (int i = 0; i < num_of_rooms; i++)
+	{
+		if (strcmp(rooms[i].getName(), r_name)!= 0) {
+			return false;
+		}
+		rooms[i].addItem(i_name);
+		return true;
+	}
+}
+bool Data::addMonster(char* r_name, char* m_name)
+{
+	for (int i = 0; i < num_of_rooms; i++)
+	{
+		if (strcmp(rooms[i].getName(), r_name) != 0) {
+			return false;
+		}
+		rooms[i].addMonster(m_name);
+		return true;
+	}
+}
+Map* Data::getMap(char* m_name)
+{
+	for (int i = 0; i < num_of_maps; i++)
+	{
+		if (strcmp(maps[i].getName(), m_name) == 0)
+			return &maps[i];
+	}
+
+}
+void Data::printData()
+{
+	for (int i = 0; i < num_of_maps; i++)
+	{
+		maps[i].printMap();
+	}
+}
 

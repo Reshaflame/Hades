@@ -18,12 +18,18 @@ public:
 
 	// Almog:
 	Room();
+	Room(Room*);
+	Room(char* name);
 	~Room();
+
+	Room& operator=(const Room& other);
 
 	// Almog:
 	char* getName();
 	int getNumOfItems();
 	int getNumOfMonsters();
+	Room* getNextRoom(Direction direction);
+	Direction canRoomConnect();
 
 	void printRoom();
 
@@ -32,6 +38,8 @@ public:
 	bool addMonster(char* name);
 
 	bool connectRoom(Room* room, Direction direction);
+	
+	
 
 private:
 	const char* name;
@@ -46,11 +54,4 @@ private:
 	int num_of_monsters;
 };
 
-Room::Room()
-{
-}
-
-Room::~Room()
-{
-}
 

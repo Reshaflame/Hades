@@ -14,7 +14,7 @@ private:
 	int num_of_maps = 0;
 
 	Map* maps;
-	Room rooms;
+	Room* rooms;
 };
 
 Data::Data()

@@ -9,6 +9,7 @@ public:
 	~Map();
 
 	
+	// HARD!
 	Map& operator+=(const Map& map_to_add);
 	friend Map operator+(Map l_map, const Map& r_map)
 	{

@@ -8,7 +8,8 @@ enum Direction
 	North = 12,
 	East = 3,
 	South = 6,
-	West = 9
+	West = 9,
+	None = 0
 };
 
 class Room
@@ -37,3 +38,4 @@ Room::Room()
 Room::~Room()
 {
 }
+

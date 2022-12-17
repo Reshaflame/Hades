@@ -48,3 +48,20 @@ private:
 	bool combineMaps(Map l_map, const Map& r_map);
 	bool expandRoomsArr(int new_size);
 };
+Map::Map(char* n)
+{
+	name = new char[strlen(n) + 1];
+	if (name == nullptr)
+		delete[] name;
+	strncpy(name, n, strlen(n) + 1);
+
+	
+}
+
+Map::~Map()
+{
+	delete[] rooms;
+	delete[] currentRoom;
+	delete[] name;
+}
+

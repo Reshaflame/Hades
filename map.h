@@ -78,5 +78,6 @@ Map::~Map()
 	delete[] rooms;
 	delete[] currentRoom;
 	delete[] name;
+	delete[] rooms_array;
 }
 

@@ -46,6 +46,26 @@ Map* Game::changeCurrMap(char* m_name)
 
 	return data->getMap(m_name);
 }
+
+Map* Game::CombineCurrMapToMap(char* m_name)
+{
+	Map* temp_m = data->getMap(m_name);
+	if (!temp_m) return nullptr;
+	*currentMap += *temp_m;
+	return currentMap;
+}
+
+// no empty map constructors are pain...
+Map* Game::CombineMapsToNew(char* new_m_name, char* m_name)
+{
+	Map* temp_m = data->getMap(m_name);
+	if (!temp_m) return nullptr;
+
+
+	Map* combined = new Map(new_m_name);
+
+}
+
 void Game::printData()// prints only maps and rooms names.
 {
 	data->printData();

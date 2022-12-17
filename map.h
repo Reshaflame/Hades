@@ -8,6 +8,8 @@ public:
 
 	// Esty:
 	Map();
+	Map(char*);
+	Map(const Map&);
 	~Map();
 
 	// Almog
@@ -41,12 +43,8 @@ private:
 	Room* currentRoom;
 
 	int num_of_rooms = 0;
+	
+	// Almog:
+	bool combineMaps(Map l_map, const Map& r_map);
+	bool expandRoomsArr(int new_size);
 };
-
-Map::Map()
-{
-}
-
-Map::~Map()
-{
-}

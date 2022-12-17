@@ -73,6 +73,35 @@ Map::Map(const char* n, char* r)
 	
 	
 }
+
+ Map::Map(const Map& m)
+{
+	 num_of_rooms = m.num_of_rooms;
+	 name = new char[strlen(m.name) + 1];
+	 if (!name) throw "No memory!";
+
+	 currentRoom = m.currentRoom;
+
+	 for (int i = 0; i < num_of_rooms; i++)
+	 {
+		 rooms_array[i] = m.rooms_array[i];
+	 }
+
+	 for (int i = 0; i < num_of_rooms; i++)
+	 {
+		 rooms[i] = m.rooms[i];
+	 }
+	 for (int i = 0; i < num_of_rooms; i++)
+	 {
+		
+			 rooms[i].connectRoom(m.rooms[i].getNextRoom(North), North);
+			 rooms[i].connectRoom(m.rooms[i].getNextRoom(South), South);
+			 rooms[i].connectRoom(m.rooms[i].getNextRoom(East),East);
+			 rooms[i].connectRoom(m.rooms[i].getNextRoom(West), West);
+		
+	 }
+}
+
 Map::~Map()
 {
 	delete[] rooms;

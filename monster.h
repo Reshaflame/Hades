@@ -5,6 +5,7 @@ class Monster
 public:
 
 	// Esty:
+	Monster::Monster();
 	Monster(char* n);
 	~Monster();
 
@@ -20,6 +21,7 @@ private:
 	int level;
 };
 
+Monster::Monster(){}
 
 Monster::Monster(char* n)
 {

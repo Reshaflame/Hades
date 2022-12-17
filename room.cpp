@@ -75,3 +75,223 @@ Room::Room(char* name)
 	num_of_items = 0;
 	num_of_monsters = 0;
 }
+
+bool Room::addItem(char* name)
+{
+	
+	for (int i = 0; i < num_of_items; i++) 
+	{
+		//Item is already exists
+		if (strcmp(name, items[i].getName()) == 0)
+		{
+			if (items[i].getRarity() == Legendary) //His level is legendary
+			{
+				for (int j = i; j < num_of_items; j++) // search for more
+				{
+					if (strcmp(name, items[j].getName()) == 0 && items[j].getRarity() != Legendary) // same item level not legendary
+					{
+						items[i].operator++();
+					}
+					
+				}
+			}
+			else {
+				items[i].operator++();
+			}
+		}
+
+	}
+	//Add new Item
+	Item* new_item = new Item(name);
+		if (new_item == nullptr)
+			return false;
+		++num_of_items;
+		//create a new items array
+		
+		
+}
+bool Room::addMonster(char* name)
+{
+	for (int i = 0; i < num_of_monsters; i++)
+	{
+		if (strcmp(name, monsters[i].getName()) == 0)
+		{
+			if (monsters[i].getLevel() == 5)
+			{
+				for (int j = i; j < num_of_monsters; j++) // search for more
+				{
+					if (strcmp(name, monsters[j].getName()) == 0 && monsters[j].getLevel() != 5) // same monster level not 5
+					{
+					monsters[i].operator++();
+					}
+					
+				}
+					
+			}
+
+		}
+		else {
+			monsters[i].operator++();
+		}
+	}
+	Monster* new_monster = new Monster(name);
+	if (new_monster == nullptr)
+		return false;
+	++num_of_monsters;
+	//create a new monsters array
+	return true;
+}
+
+bool Room::connectRoom(Room* room, Direction direction)
+{
+
+	switch (this->canRoomConnect())
+	{
+	case North:
+	{
+		switch (room->canRoomConnect())
+		{
+		case North:
+			this->north = room;
+			room->north = this;
+			return true;
+			break;
+		case South:
+			this->north = room;
+			room->south = this;
+			return true;
+			break;
+		case East:
+			this->north = room;
+			room->east = this;
+			return true;
+			break;
+		case West:
+			this->north = room;
+			room->west = this;
+			return true;
+			break;
+		case None:
+			return false;
+			break;
+
+		default:
+			return false;
+			break;
+		}
+	}
+		break;
+	case South:
+	{
+		switch (this->canRoomConnect())
+		{
+		case North:
+			this->south = room;
+			room->north = this;
+			return true;
+			break;
+		case South:
+			this->south = room;
+			room->south = this;
+			return true;
+			break;
+		case East:
+			this->south = room;
+			room->east = this;
+			return true;
+			break;
+		case West:
+			this->south = room;
+			room->west = this;
+			return true;
+			break;
+		case None:
+			return false;
+			break;
+		default:
+			return false;
+		break;
+		}
+	}
+		break;
+
+	case East:
+	{
+		switch (this->canRoomConnect())
+		{
+		case North:
+			this->east = room;
+			room->north = this;
+			return true;
+			break;
+		case South:
+			this->east = room;
+			room->south = this;
+			return true;
+			break;
+		case East:
+			this->east = room;
+			room->east = this;
+			return true;
+			break;
+		case West:
+			this->east = room;
+			room->west = this;
+			return true;
+			break;
+		case None:
+			return false;
+			break;
+
+		default:
+			return false;
+			break;
+		}
+	}
+		break;
+
+	case West:
+	{
+		switch (this->canRoomConnect())
+		{
+		case North:
+			this->west = room;
+			room->north = this;
+			return true;
+			break;
+		case South:
+			this->west = room;
+			room->south = this;
+			return true;
+			break;
+		case East:
+			this->west = room;
+			room->east = this;
+			return true;
+			break;
+		case West:
+			this->west = room;
+			room->west = this;
+			return true;
+			break;
+		case None:
+			return false;
+			break;
+
+		default:
+			return false;
+			break;
+		}
+	}
+		break;
+
+	case None:
+		return false;
+		break;
+
+	default:
+		return false;
+		break;
+	}
+	
+}

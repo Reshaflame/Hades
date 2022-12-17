@@ -102,11 +102,22 @@ bool Room::addItem(char* name)
 
 	}
 	//Add new Item
-	Item* new_item = new Item(name);
-		if (new_item == nullptr)
-			return false;
-		++num_of_items;
-		//create a new items array
+	
+	Item* newArr = new Item[++num_of_items];
+	if (!newArr) return false;
+	
+	memcpy_s(newArr, sizeof(Item) * (num_of_items - 1), items, sizeof(Item) * (num_of_items - 1));
+
+	newArr[num_of_items - 1] = Item(name);
+	if (!&newArr[num_of_items - 1])
+	{
+		delete[] newArr;
+		return false;
+	}
+
+	delete[] items;
+	items = newArr;
+	return true;
 		
 		
 }
@@ -134,14 +145,24 @@ bool Room::addMonster(char* name)
 			monsters[i].operator++();
 		}
 	}
-	Monster* new_monster = new Monster(name);
-	if (new_monster == nullptr)
-		return false;
-	++num_of_monsters;
-	//create a new monsters array
-	return true;
-}
+	
+	Monster* newArr = new Monster[++num_of_monsters];
+	if (!newArr) return false;
 
+	memcpy_s(newArr, sizeof(Monster) * (num_of_monsters - 1), monsters, sizeof(Monster) * (num_of_monsters - 1));
+
+	newArr[num_of_monsters - 1] = Monster(name);
+	if (!&newArr[num_of_monsters - 1])
+	{
+		delete[] newArr;
+		return false;
+	}
+
+	delete[] monsters;
+	monsters = newArr;
+	return true;
+	
+}
 bool Room::connectRoom(Room* room, Direction direction)
 {
 

@@ -46,4 +46,8 @@ Map* Game::changeCurrMap(char* m_name)
 
 	return data->getMap(m_name);
 }
+void Game::printData()// prints only maps and rooms names.
+{
+	data->printData();
+}
 

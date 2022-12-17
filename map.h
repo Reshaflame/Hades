@@ -8,7 +8,7 @@ public:
 
 	// Esty:
 	Map();
-	Map(char*);
+	Map(char* n, char* r);
 	Map(const Map&);
 	~Map();
 
@@ -39,25 +39,40 @@ public:
 private:
 	const char* name;
 	Room* rooms;
-	Room** romms_array;
+	Room** rooms_array;
 	Room* currentRoom;
 
-	int num_of_rooms = 0;
+	int num_of_rooms;
 	
 	// Almog:
 	bool combineMaps(Map l_map, const Map& r_map);
 	bool expandRoomsArr(int new_size);
 };
-Map::Map(char* n)
+Map::Map(const char* n, char* r)
 {
-	name = new char[strlen(n) + 1];
-	if (name == nullptr)
-		delete[] name;
-	strncpy(name, n, strlen(n) + 1);
+	//Name of map
+	char* temp_name = new char[strlen(n)+1];
+	if (!temp_name) throw "no memory!";
+	strncpy(temp_name, n, strlen(n));
+	name = temp_name;
+
+	num_of_rooms = 1;
 
 	
-}
+	Room* new_room = new Room(r);
+	if (!new_room)  throw  "No memory";
+	//Rooms 
+	rooms = new_room;
 
+	//Rooms array
+	
+	*rooms_array[num_of_rooms-1] = new_room;
+
+	//Current room
+	currentRoom = rooms;
+	
+	
+}
 Map::~Map()
 {
 	delete[] rooms;

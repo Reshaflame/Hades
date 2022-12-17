@@ -13,6 +13,7 @@ class Item
 public:
 
 	// Esty:
+	Item::Item();
 	Item(char* n);
 	Item(const Item& i)
 	{
@@ -36,6 +37,7 @@ private:
 	char* name;
 	Item() : name(nullptr),rare(Common){}
 };
+Item::Item(){}
 
 Item::Item(char* n)
 {

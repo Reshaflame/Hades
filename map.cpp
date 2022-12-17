@@ -15,5 +15,14 @@ bool Map::addMosterToCurrRoom(char* name)
 
 Direction Map::whatIsEmpty()
 {
-	
+	if (currentRoom->canRoomConnect() == North)
+		return North;
+	if (currentRoom->canRoomConnect() == East)
+		return East;
+	if (currentRoom->canRoomConnect() == West)
+		return West;
+	if (currentRoom->canRoomConnect() == South)
+		return South;
+	if (currentRoom->canRoomConnect() == None)
+		return None;
 }

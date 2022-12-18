@@ -91,13 +91,62 @@ Map::Map(const char* n, char* r)
 	 {
 		 rooms[i] = m.rooms[i];
 	 }
+
+	 
 	 for (int i = 0; i < num_of_rooms; i++)
 	 {
+		 char* h_name = new char(sizeof(m.rooms[i].getNextRoom(North)->getName()) + 1);
+		 if (!h_name) throw "No memory!";
+		 strcpy(h_name, m.rooms[i].getNextRoom(North)->getName());
+
+		 for (int j = 0; j < num_of_rooms; j++)
+		 {
+			 if (rooms[j].getName() == h_name)
+			 {
+				 rooms[i].connectRoom(rooms[j].getNextRoom(North), North);
+			 }
+		 }
+		 delete[] h_name;
 		
-			 rooms[i].connectRoom(m.rooms[i].getNextRoom(North), North);
-			 rooms[i].connectRoom(m.rooms[i].getNextRoom(South), South);
-			 rooms[i].connectRoom(m.rooms[i].getNextRoom(East),East);
-			 rooms[i].connectRoom(m.rooms[i].getNextRoom(West), West);
+		 char* h_name = new char(sizeof(m.rooms[i].getNextRoom(South)->getName()) + 1);
+		 if (!h_name) throw "No memory!";
+		 strcpy(h_name, m.rooms[i].getNextRoom(South)->getName());
+
+		 for (int j = 0; j < num_of_rooms; j++)
+		 {
+			 if (rooms[j].getName() == h_name)
+			 {
+				 rooms[i].connectRoom(rooms[j].getNextRoom(South), South);
+			 }
+		 }
+		 delete[] h_name;
+
+		 char* h_name = new char(sizeof(m.rooms[i].getNextRoom(East)->getName()) + 1);
+		 if (!h_name) throw "No memory!";
+		 strcpy(h_name, m.rooms[i].getNextRoom(East)->getName());
+
+		 for (int j = 0; j < num_of_rooms; j++)
+		 {
+			 if (rooms[j].getName() == h_name)
+			 {
+				 rooms[i].connectRoom(rooms[j].getNextRoom(East), East);
+			 }
+		 }
+		 delete[] h_name;
+			
+		 char* h_name = new char(sizeof(m.rooms[i].getNextRoom(West)->getName()) + 1);
+		 if (!h_name) throw "No memory!";
+		 strcpy(h_name, m.rooms[i].getNextRoom(West)->getName());
+
+		 for (int j = 0; j < num_of_rooms; j++)
+		 {
+			 if (rooms[j].getName() == h_name)
+			 {
+				 rooms[i].connectRoom(rooms[j].getNextRoom(West), West);
+			 }
+		 }
+		 delete[] h_name;
+			
 		
 	 }
 }

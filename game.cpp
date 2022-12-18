@@ -71,3 +71,27 @@ void Game::printData()// prints only maps and rooms names.
 	data->printData();
 }
 
+bool Game::addItemToRoom(char* i_name) 
+{
+	currentMap->addItemToCurrRoom(i_name);
+	return true;
+}
+bool Game::addMonsterToRoom(char* m_name)
+{
+	currentMap->addMosterToCurrRoom(m_name);
+	return true;
+}
+bool Game::addItemToDataRoom(char* r_name, char* i_name)
+{
+	data->addItem(r_name, i_name);
+	return true;
+}
+bool Game::addMonsterToDataRoom(char* r_name, char* m_name)
+{
+	data->addMonster(r_name, m_name);
+	return true;
+}
+void Game::printData()// prints only maps and rooms names.
+{
+	data->printData();
+}

@@ -8,7 +8,7 @@ public:
 
 	// Esty:
 	Map();
-	Map(char* n, char* r);
+	Map(char* n);
 	Map(const Map&);
 	~Map();
 
@@ -48,7 +48,7 @@ private:
 	bool combineMaps(Map l_map, const Map& r_map);
 	bool expandRoomsArr(int new_size);
 };
-Map::Map(const char* n, char* r)
+Map::Map(const char* n)
 {
 	//Name of map
 	char* temp_name = new char[strlen(n)+1];
@@ -59,7 +59,7 @@ Map::Map(const char* n, char* r)
 	num_of_rooms = 1;
 
 	
-	Room* new_room = new Room(r);
+	Room* new_room = new Room(temp_name);
 	if (!new_room)  throw  "No memory";
 	//Rooms 
 	rooms = new_room;

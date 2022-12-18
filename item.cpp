@@ -20,3 +20,12 @@ Rarity& Item::operator++() {
 	if (rare == Legendary) return rare = Legendary;
 	
 }
+
+void Item::print()
+{
+	std::cout << name << " Rarity: ";
+	if (rarity == Common) std::cout << "common";
+	else if (rarity == Uncommon) std::cout << "uncommon";
+	else if (rarity == Epic) std::cout << "epic";
+	else if (rarity == Legendary) std::cout << "legendary";
+}

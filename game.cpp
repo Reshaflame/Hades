@@ -91,7 +91,4 @@ bool Game::addMonsterToDataRoom(char* r_name, char* m_name)
 	data->addMonster(r_name, m_name);
 	return true;
 }
-void Game::printData()// prints only maps and rooms names.
-{
-	data->printData();
-}
+

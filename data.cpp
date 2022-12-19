@@ -1,100 +1,141 @@
 
-#include "game.h"
+#include "data.h"
+#include <iostream>
 
-Game::Game()
+Data::Data()
 {
-	currentMap = nullptr;
-	data = new Data();
+	num_of_maps = 0;
+	num_of_rooms = 0;
+	maps = nullptr;
+	rooms = nullptr;
 }
 
-Game::~Game()
+Data::~Data()
 {
-	delete data;
+	delete[] maps;
+	delete[] rooms;
 }
 
-Map* Game::addMap(char* m_name)
+Room* Data::addRoom(char* name)
 {
-	if (!m_name) return nullptr;
-	Map* temp_map = data->getMap(m_name);
-	if (temp_map)
+	if (!name) return nullptr;
+
+	for (size_t i = 0; i < num_of_rooms; i++)
 	{
+		if (!strcmp(name, rooms[i].getName())) return nullptr;
+	}
+	Room* newArr = new Room[++num_of_rooms];
+	if (!newArr) return nullptr;
+	
+	memcpy_s(newArr, sizeof(Room) * (num_of_rooms - 1), rooms, sizeof(Room) * (num_of_rooms - 1));
+
+	newArr[num_of_rooms - 1] = Room(name);
+	if (!&newArr[num_of_rooms - 1])
+	{
+		delete[] newArr;
 		return nullptr;
 	}
-	return temp_map;
+
+	delete[] rooms;
+	rooms = newArr;
+	return &newArr[num_of_rooms - 1];
 }
 
-Room* Game::addRoomToData(char* r_name)
+Map* Data::addMap(char* name)
 {
-	if (!r_name) return nullptr;
-	return data->addRoom(r_name);
-}
+	if (!name) return nullptr;
 
-Map* Game::addRoomToMap(char* r_name, Direction direction = None)
-{
-	if (!r_name) return nullptr;
-	
-	Room* newRoom = data->getRoom(r_name);
-	if (!newRoom) return nullptr;
-	
-	if (!currentMap->addRoom(newRoom, direction)) return nullptr;
-	else return currentMap;
-}
-
-void Game::printCurrMap()
-{
-	currentMap->printMap();
-}
-
-Map* Game::changeCurrMap(char* m_name)
-{
-	if (!m_name) return nullptr;
-
-	Map* temp_map = data->getMap(m_name);
-	if (temp_map)
+	for (size_t i = 0; i < num_of_maps; i++)
 	{
+		if (!strcmp(name, maps[i].getName())) return nullptr;
+	}
+	Map* newArr = new Map[++num_of_maps];
+	if (!newArr) return nullptr;
+	
+	memcpy_s(newArr, sizeof(Map) * (num_of_maps - 1), maps, sizeof(Map) * (num_of_rooms - 1));
+
+	newArr[num_of_maps - 1] = Map(name);
+	if (!&newArr[num_of_maps - 1])
+	{
+		delete[] newArr;
 		return nullptr;
 	}
-	return temp_map;
+
+	delete[] maps;
+	maps = newArr;
+	return &newArr[num_of_maps - 1];
 }
 
-Map* Game::CombineCurrMapToMap(char* m_name)
+Room* Data::getRoom(char* r_name) const
 {
-	Map* temp_m = data->getMap(m_name);
-	if (!temp_m) return nullptr;
-	*currentMap += *temp_m;
-	return currentMap;
+	for (size_t i = 0; i < num_of_rooms; i++)
+	{
+		if (!strcmp(r_name, rooms[i].getName()))
+		{
+			return &rooms[i];
+		}
+	}
+	return nullptr;
+}
+bool Data::addItem(char* r_name, char* i_name)
+{
+	bool isItemExis = false;
+	for (int i = 0; i < num_of_rooms; i++)
+	{
+		if (strcmp(rooms[i].getName(), r_name) == 0) {
+			isItemExis = true;
+			break;
+		}
+	}
+
+	if (isItemExis) {
+
+		rooms->addItem(i_name);
+		return true;
+	}
+}
+bool Data::addMonster(char* r_name, char* m_name)
+{
+	bool isMonsterExist = false;
+	for (int i = 0; i < num_of_rooms; i++)
+	{
+		if (strcmp(rooms[i].getName(), r_name) == 0) 
+		{
+			isMonsterExist = true;
+			break;
+		}
+		
+		
+		
+	}
+	if (isMonsterExist)
+	{
+		rooms->addMonster(m_name);
+		return true;
+	}
+	
 }
 
-// no empty map constructors are pain...
-Map* Game::CombineMapsToNew(char* new_m_name, char* m_name)
+Map* Data::getMap(char* m_name) const
 {
-	Map* temp_m = data->getMap(m_name);
-	if (!temp_m) return nullptr;
-
-
-	Map* combined = new Map(new_m_name);
-
+	for (int i = 0; i < num_of_maps; i++)
+	{
+		if (strcmp(maps[i].getName(), m_name) == 0)
+			return &maps[i];
+	}
 }
 
-void Game::printData()// prints only maps and rooms names.
+void Data::printData()
 {
-	data->printData();
-}
+	for (int i = 0; i < num_of_maps; i++)
+	{
+		std::cout << maps[i].getName();
+		
+	}
+	for (int i = 0; i < num_of_rooms; i++)
+	{
+		std::cout << rooms[i].getName();
 
-bool Game::addItemToRoom(char* i_name) 
-{
-	return currentMap->addItemToCurrRoom(i_name);
-}
-bool Game::addMonsterToRoom(char* m_name)
-{
-	return currentMap->addMosterToCurrRoom(m_name);
-}
-bool Game::addItemToDataRoom(char* r_name, char* i_name)
-{
-	return data->addItem(r_name, i_name);
-}
-bool Game::addMonsterToDataRoom(char* r_name, char* m_name)
-{
-	return data->addMonster(r_name, m_name);
+	}
 }
 

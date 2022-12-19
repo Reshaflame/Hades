@@ -15,40 +15,18 @@ public:
 	// Esty:
 	Item::Item();
 	Item(char* n);
-	Item(const Item& i)
-	{
-		rare = i.rare;
-		name  = new char[strlen(i.name) + 1];
-		if (name == nullptr)
-			delete[] name;
-		strncpy(name, i.name, strlen(i.name) + 1);
-	}
 	~Item();
 
-	Rarity getRarity();
-	char* getName();
-	Rarity& operator++();
-	
+	Rarity getRarity()const;
+	char* getName()const;
+	Item operator++();
+	void print();
 
-	// operator++
 
 private:
-	Rarity rare;
+	Rarity rarity;
 	char* name;
-	Item() : name(nullptr),rare(Common){}
 };
-Item::Item(){}
 
-Item::Item(char* n)
-{
-	name = new char[strlen(n) + 1];
-	if (name == nullptr)
-		delete[] name;
-	strncpy(name, n, strlen(n) + 1);
-	rare = Common;
-}
 
-Item::~Item()
-{
-	delete[] name;
-}
+

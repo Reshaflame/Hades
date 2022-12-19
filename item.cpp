@@ -1,24 +1,59 @@
 #include "item.h"
+#include <iostream>
 #include <string.h>
 
 using namespace std;
 
-
-Rarity Item::getRarity()
+Item::Item()
 {
-	return rare;
+	rarity = Common;
+	name = nullptr;
 }
-char* Item::getName()
+
+Item::Item(char* n)
+{
+	char* temp_name = new char[strlen(n) + 1];
+	if (temp_name == nullptr){
+		throw "NoMemory";
+	}
+	
+	strncpy(temp_name, n, strlen(n) + 1);
+	rarity = Common;
+	name = temp_name;
+}
+Item::~Item()
+{
+	delete[] name;
+}
+
+Rarity Item::getRarity()const
+{
+	return rarity;
+}
+char* Item::getName()const
 {
 	return name;
 }
 
-Rarity& Item::operator++() {
-	if (rare == Common) return rare = Uncommon;
-	if (rare == Uncommon) return rare = Epic;
-	if (rare == Epic) return rare = Legendary;
-	if (rare == Legendary) return rare = Legendary;
-	
+Item Item::operator++() {
+	if (rarity == Common) 
+	{
+		rarity = Uncommon;
+	}
+	if (rarity == Uncommon) 
+	{
+		 rarity = Epic;
+	}
+	if (rarity == Epic)
+	{
+		rarity = Legendary;
+	} 
+	if (rarity == Legendary) 
+	{
+		rarity = Legendary;
+	}
+
+	return *this;
 }
 
 void Item::print()

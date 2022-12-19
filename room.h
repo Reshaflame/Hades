@@ -25,11 +25,11 @@ public:
 	Room& operator=(const Room& other);
 
 	// Almog:
-	char* getName();
-	int getNumOfItems();
-	int getNumOfMonsters();
-	Room* getNextRoom(Direction direction);
-	Direction canRoomConnect();
+	char* getName() const;
+	int getNumOfItems() const;
+	int getNumOfMonsters() const;
+	Room* getNextRoom(Direction direction) const;
+	Direction canRoomConnect() const;
 
 	void printRoom();
 

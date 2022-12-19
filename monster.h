@@ -5,13 +5,13 @@ class Monster
 public:
 
 	// Esty:
-	Monster::Monster();
+	Monster();
 	Monster(char* n);
 	~Monster();
 
-	int getLevel();
-	char* getName();
-	int operator++();
+	int getLevel()const;
+	char* getName()const;
+	Monster& operator++();
 
 
 	// operator++
@@ -21,19 +21,3 @@ private:
 	int level;
 };
 
-Monster::Monster(){}
-
-Monster::Monster(char* n)
-{
-	name = new char[strlen(n) + 1];
-	if (name == nullptr)
-		delete[] name;
-	strncpy(name, n, strlen(n) + 1);
-	level = 1;
-
-}
-
-Monster::~Monster()
-{
-	delete[] name;
-}

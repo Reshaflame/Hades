@@ -53,7 +53,7 @@ Room::Room(Room* room)
 	
 }
 
-Room::Room(char* name)
+Room::Room(const char* name)
 {
 	if (!name) throw "Null argument!!";
 
@@ -76,235 +76,176 @@ Room::Room(char* name)
 	num_of_monsters = 0;
 }
 
+// do not copy exits (connections)
+Room& Room::operator=(const Room& other)
+{
+	if (this == &other) return *this;
+
+	if (!(num_of_items == other.num_of_items))
+	{
+		delete[] items;
+		items = new Item[other.num_of_items];
+		if (items == nullptr) throw "no memory!";
+	}
+	memcpy_s(items, sizeof(Item)*other.num_of_items, other.items, sizeof(Item) * other.num_of_items);
+
+	if (!(num_of_monsters == other.num_of_monsters))
+	{
+		delete[] monsters;
+		monsters = new Monster[other.num_of_monsters];
+		if (monsters == nullptr) throw "no memory!";
+	}
+	memcpy_s(monsters, sizeof(Monster) * other.num_of_monsters, other.monsters, sizeof(Monster) * other.num_of_monsters);
+
+	delete[] name;
+	char* temp_name = new char[strlen(other.name) + 1];
+	if (!temp_name) throw "no memory!";
+	strcpy_s(temp_name, sizeof(char) * strlen(other.name), other.name);
+	name = temp_name;
+
+	return *this;
+}
+
+char* Room::getName() const
+{
+	char* temp = new char[strlen(name) + 1];
+	if (!temp) return nullptr;
+
+	strcpy_s(temp, (sizeof(char)) * (strlen(name) + 1), name);
+	temp[strlen(name)] = 0;
+	return temp;
+}
+
+int Room::getNumOfItems() const
+{
+	return num_of_items;
+}
+
+int Room::getNumOfMonsters() const
+{
+	return num_of_monsters;
+}
+
+Room* Room::getNextRoom(Direction direction) const
+{
+	if (direction == North) return north;
+	if (direction == East) return east;
+	if (direction == South) return south;
+	if (direction == West) return west;
+	if (direction == None) return nullptr;
+	return nullptr;
+}
+
+Direction Room::canRoomConnect() const
+{
+	if (north) return North;
+	if (east) return East;
+	if (south) return South;
+	if (west) return West;
+	return None;
+}
+
+void Room::printRoom()
+{
+	std::cout << "Room " << name << ": " << std::endl;
+	std::cout << "Items:" << std::endl;
+	for (size_t i = 0; i < num_of_items; i++)
+	{
+		std::cout << (i + 1) << ". ";
+		items[i].print();
+		std::cout << std::endl;
+	}
+	std::cout << "Monsters:" << std::endl;
+	for (size_t i = 0; i < num_of_monsters; i++)
+	{
+		std::cout << (i + 1) << ". ";
+		monsters[i].print();
+		std::cout << std::endl;
+	}
+}
+
 bool Room::addItem(char* name)
 {
-	if (!name){
+
+	if (!name) {
 		return false;
 	}
 
-	bool isItemExists = false;
-	for (int i = 0; i < num_of_items; i++) 
+	for (int i = 0; i < num_of_items; i++)
 	{
 		//Item is already exists
-		if (strcmp(name, items[i].getName()) == 0){
-			isItemExists = true;
-			if (items[i].getRarity() != Legendary)
-			{
-				items[i].operator++();
-			}
-
+		if (strcmp(name, items[i].getName()) == 0 && items[i].getRarity() != Legendary)
+		{
+			items[i]++;
+			return true;
 		} // same item level not legendary
-		
-
 	}
 	//Add new Item
-	if (!isItemExists)
+	Item* newArr = new Item[++num_of_items];
+	if (!newArr) return false;
+
+	newArr[num_of_items - 1] = Item(name);
+
+	if (!&newArr[num_of_items - 1])
 	{
-		Item* newArr = new Item[++num_of_items];
-		if (!newArr) return false;
-		
-		memcpy_s(newArr, sizeof(Item) * (num_of_items - 1), items, sizeof(Item) * (num_of_items - 1));
-
-		newArr[num_of_items - 1] = Item(name);
-		if (!&newArr[num_of_items - 1])
-		{
-			delete[] newArr;
-			return false;
-		}
-
-		delete[] items;
-		items = newArr;
-		return true;
+		delete[] newArr;
+		return false;
 	}
-	
-	return false;
+
+	memcpy_s(newArr, sizeof(Item) * (num_of_items - 1), items, sizeof(Item) * (num_of_items - 1));
+
+	delete[] items;
+	items = newArr;
+	return true;
 }
+
 
 bool Room::addMonster(char* name)
 {
-	bool didFindMonster = false;
 	for (int i = 0; i < num_of_monsters; i++)
 	{
-		if (strcmp(name, monsters[i].getName()) == 0)
+		if (strcmp(name, monsters[i].getName()) == 0 && monsters[i].getLevel() < 5)
 		{
-			didFindMonster = true;
-			if (monsters[i].getLevel() != 5)
-			{
-				monsters[i].operator++();
-			}
+			monsters[i]++;
+			return true;
 		}
-		
 	}
-	if (didFindMonster)
+
+	Monster* newArr = new Monster[++num_of_monsters];
+	if (!newArr) return false;
+
+	newArr[num_of_monsters - 1] = Monster(name);
+
+	if (!&newArr[num_of_monsters - 1])
 	{
-		Monster* newArr = new Monster[++num_of_monsters];
-		if (!newArr) return false;
-
-		memcpy_s(newArr, sizeof(Monster) * (num_of_monsters - 1), monsters, sizeof(Monster) * (num_of_monsters - 1));
-
-		newArr[num_of_monsters - 1] = Monster(name);
-		if (!&newArr[num_of_monsters - 1])
-		{
-			delete[] newArr;
-			return false;
-		}
-
-		delete[] monsters;
-		monsters = newArr;
-		return true;
+		delete[] newArr;
+		return false;
 	}
-	return false;
+
+	memcpy_s(newArr, sizeof(Monster) * (num_of_monsters - 1), items, sizeof(Monster) * (num_of_monsters - 1));
+
+	delete[] monsters;
+	monsters = newArr;
+	return true;
 }
 
+// connects rooms in both ways
 bool Room::connectRoom(Room* room, Direction direction)
 {
-	switch (this->canRoomConnect())
-	{
-	case North:
-	{
-		switch (room->canRoomConnect())
-		{
-		case North:
-			this->north = room;
-			room->north = this;
-			return true;
-			break;
-		case South:
-			this->north = room;
-			room->south = this;
-			return true;
-			break;
-		case East:
-			this->north = room;
-			room->east = this;
-			return true;
-			break;
-		case West:
-			this->north = room;
-			room->west = this;
-			return true;
-			break;
-		case None:
-			return false;
-			break;
+	if (direction == None) return false;
+	if (!room) return false;
+	if (!this->getNextRoom(direction)) return false;
+	if (room->canRoomConnect() == None) return false;
 
-		default:
-			return false;
-			break;
-		}
-	}
-		break;
-	case South:
-	{
-		switch (this->canRoomConnect())
-		{
-		case North:
-			this->south = room;
-			room->north = this;
-			return true;
-			break;
-		case South:
-			this->south = room;
-			room->south = this;
-			return true;
-			break;
-		case East:
-			this->south = room;
-			room->east = this;
-			return true;
-			break;
-		case West:
-			this->south = room;
-			room->west = this;
-			return true;
-			break;
-		case None:
-			return false;
-			break;
-		default:
-			return false;
-		break;
-		}
-	}
-		break;
+	if (direction == North) this->north = room;
+	if (direction == East) this->east = room;
+	if (direction == South) this->south = room;
+	if (direction == West) this->west = room;
 
-	case East:
-	{
-		switch (this->canRoomConnect())
-		{
-		case North:
-			this->east = room;
-			room->north = this;
-			return true;
-			break;
-		case South:
-			this->east = room;
-			room->south = this;
-			return true;
-			break;
-		case East:
-			this->east = room;
-			room->east = this;
-			return true;
-			break;
-		case West:
-			this->east = room;
-			room->west = this;
-			return true;
-			break;
-		case None:
-			return false;
-			break;
+	if (room->canRoomConnect() == North) room->north = this;
+	if (room->canRoomConnect() == East) room->east = this;
+	if (room->canRoomConnect() == South) room->south = this;
+	if (room->canRoomConnect() == West) room->west = this;
 
-		default:
-			return false;
-			break;
-		}
-	}
-		break;
-
-	case West:
-	{
-		switch (this->canRoomConnect())
-		{
-		case North:
-			this->west = room;
-			room->north = this;
-			return true;
-			break;
-		case South:
-			this->west = room;
-			room->south = this;
-			return true;
-			break;
-		case East:
-			this->west = room;
-			room->east = this;
-			return true;
-			break;
-		case West:
-			this->west = room;
-			room->west = this;
-			return true;
-			break;
-		case None:
-			return false;
-			break;
-
-		default:
-			return false;
-			break;
-		}
-	}
-		break;
-
-	case None:
-		return false;
-		break;
-
-	default:
-		return false;
-		break;
-	}
-	
+	return true;
 }

@@ -8,7 +8,7 @@ public:
 
 	// Esty:
 	Map();
-	Map(char* n);
+	Map(const char*);
 	Map(const Map&);
 	~Map();
 
@@ -27,13 +27,8 @@ public:
 
 	Direction whatIsEmpty();
 
-	// HARD!
+	// Almog:
 	Map& operator+=(const Map& map_to_add);
-	friend Map operator+(Map l_map, const Map& r_map)
-	{
-		l_map += r_map;
-		return l_map;
-	}
 	
 
 private:
@@ -49,5 +44,10 @@ private:
 	bool expandRoomsArr(int new_size);
 };
 
-
+// Almog:
+Map operator+(Map l_map, const Map& r_map)
+{
+	l_map += r_map;
+	return l_map;
+}
 

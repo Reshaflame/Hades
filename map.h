@@ -40,7 +40,7 @@ private:
 	int num_of_rooms;
 	
 	// Almog:
-	bool combineMaps(Map l_map, const Map& r_map);
+	bool combineMaps(Map& l_map, const Map& r_map);
 	bool expandRoomsArr(int new_size);
 };
 

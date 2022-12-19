@@ -78,94 +78,86 @@ Room::Room(char* name)
 
 bool Room::addItem(char* name)
 {
-	
-	for (int i = 0; i < num_of_items; i++) 
-	{
-		//Item is already exists
-		if (strcmp(name, items[i].getName()) == 0)
-		{
-			if (items[i].getRarity() == Legendary) //His level is legendary
-			{
-				for (int j = i; j < num_of_items; j++) // search for more
-				{
-					if (strcmp(name, items[j].getName()) == 0 && items[j].getRarity() != Legendary) // same item level not legendary
-					{
-						items[i].operator++();
-					}
-					
-				}
-			}
-			else {
-				items[i].operator++();
-			}
-		}
-
-	}
-	//Add new Item
-	
-	Item* newArr = new Item[++num_of_items];
-	if (!newArr) return false;
-	
-	memcpy_s(newArr, sizeof(Item) * (num_of_items - 1), items, sizeof(Item) * (num_of_items - 1));
-
-	newArr[num_of_items - 1] = Item(name);
-	if (!&newArr[num_of_items - 1])
-	{
-		delete[] newArr;
+	if (!name){
 		return false;
 	}
 
-	delete[] items;
-	items = newArr;
-	return true;
+	bool isItemExists = false;
+	for (int i = 0; i < num_of_items; i++) 
+	{
+		//Item is already exists
+		if (strcmp(name, items[i].getName()) == 0){
+			isItemExists = true;
+			if (items[i].getRarity() != Legendary)
+			{
+				items[i].operator++();
+			}
+
+		} // same item level not legendary
 		
+
+	}
+	//Add new Item
+	if (!isItemExists)
+	{
+		Item* newArr = new Item[++num_of_items];
+		if (!newArr) return false;
 		
+		memcpy_s(newArr, sizeof(Item) * (num_of_items - 1), items, sizeof(Item) * (num_of_items - 1));
+
+		newArr[num_of_items - 1] = Item(name);
+		if (!&newArr[num_of_items - 1])
+		{
+			delete[] newArr;
+			return false;
+		}
+
+		delete[] items;
+		items = newArr;
+		return true;
+	}
+	
+	return false;
 }
+
 bool Room::addMonster(char* name)
 {
+	bool didFindMonster = false;
 	for (int i = 0; i < num_of_monsters; i++)
 	{
 		if (strcmp(name, monsters[i].getName()) == 0)
 		{
-			if (monsters[i].getLevel() == 5)
+			didFindMonster = true;
+			if (monsters[i].getLevel() != 5)
 			{
-				for (int j = i; j < num_of_monsters; j++) // search for more
-				{
-					if (strcmp(name, monsters[j].getName()) == 0 && monsters[j].getLevel() != 5) // same monster level not 5
-					{
-					monsters[i].operator++();
-					}
-					
-				}
-					
+				monsters[i].operator++();
 			}
-
 		}
-		else {
-			monsters[i].operator++();
-		}
+		
 	}
-	
-	Monster* newArr = new Monster[++num_of_monsters];
-	if (!newArr) return false;
-
-	memcpy_s(newArr, sizeof(Monster) * (num_of_monsters - 1), monsters, sizeof(Monster) * (num_of_monsters - 1));
-
-	newArr[num_of_monsters - 1] = Monster(name);
-	if (!&newArr[num_of_monsters - 1])
+	if (didFindMonster)
 	{
-		delete[] newArr;
-		return false;
-	}
+		Monster* newArr = new Monster[++num_of_monsters];
+		if (!newArr) return false;
 
-	delete[] monsters;
-	monsters = newArr;
-	return true;
-	
+		memcpy_s(newArr, sizeof(Monster) * (num_of_monsters - 1), monsters, sizeof(Monster) * (num_of_monsters - 1));
+
+		newArr[num_of_monsters - 1] = Monster(name);
+		if (!&newArr[num_of_monsters - 1])
+		{
+			delete[] newArr;
+			return false;
+		}
+
+		delete[] monsters;
+		monsters = newArr;
+		return true;
+	}
+	return false;
 }
+
 bool Room::connectRoom(Room* room, Direction direction)
 {
-
 	switch (this->canRoomConnect())
 	{
 	case North:

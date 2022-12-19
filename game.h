@@ -33,10 +33,3 @@ private:
 	Data* data;
 };
 
-Game::Game()
-{
-}
-
-Game::~Game()
-{
-}

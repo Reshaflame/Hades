@@ -19,10 +19,12 @@ public:
 	// Almog:
 	Room();
 	Room(Room*);
-	Room(char* name);
+	Room(const char* name);
 	~Room();
 
 	Room& operator=(const Room& other);
+
+	
 
 	// Almog:
 	char* getName() const;
@@ -30,6 +32,11 @@ public:
 	int getNumOfMonsters() const;
 	Room* getNextRoom(Direction direction) const;
 	Direction canRoomConnect() const;
+
+	const char* getItemName(int index) const;
+	const Rarity getItemRarity(int index) const;
+	const char* getMonsterName(int index) const;
+	const int getMonsterLevel(int index) const;
 
 	void printRoom();
 
@@ -54,4 +61,5 @@ private:
 	int num_of_monsters;
 };
 
+std::ostream& operator<<(std::ostream& os, const Room& room);
 

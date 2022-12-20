@@ -15,12 +15,7 @@ Game::~Game()
 Map* Game::addMap(char* m_name)
 {
 	if (!m_name) return nullptr;
-	Map* temp_map = data->getMap(m_name);
-	if (temp_map)
-	{
-		return nullptr;
-	}
-	return temp_map;
+	return data->addMap(m_name);
 }
 
 Room* Game::addRoomToData(char* r_name)
@@ -49,12 +44,7 @@ Map* Game::changeCurrMap(char* m_name)
 {
 	if (!m_name) return nullptr;
 
-	Map* temp_map = data->getMap(m_name);
-	if (temp_map)
-	{
-		return nullptr;
-	}
-	return temp_map;
+	return data->getMap(m_name);
 }
 
 Map* Game::CombineCurrMapToMap(char* m_name)
@@ -81,7 +71,7 @@ void Game::printData()// prints only maps and rooms names.
 	data->printData();
 }
 
-bool Game::addItemToRoom(char* i_name) 
+bool Game::addItemToRoom(char* i_name)
 {
 	return currentMap->addItemToCurrRoom(i_name);
 }
@@ -97,4 +87,3 @@ bool Game::addMonsterToDataRoom(char* r_name, char* m_name)
 {
 	return data->addMonster(r_name, m_name);
 }
-

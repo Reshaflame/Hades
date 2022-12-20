@@ -61,7 +61,7 @@ Room::Room(const char* name)
 	if (!temp_n) throw "no memory!";
 
 	strcpy_s(temp_n, (sizeof(char) * (strlen(name) + 1)), name);
-	temp_n[strlen(name)] = 0;
+	temp_n[strlen(name)-1] = 0;
 	this->name = temp_n;
 
 	items = nullptr;
@@ -106,6 +106,27 @@ Room& Room::operator=(const Room& other)
 	return *this;
 }
 
+std::ostream& operator<<(std::ostream& os, const Room& room)
+{
+	os << "Room " << room.getName() << ": " << std::endl;
+	os << "Items:" << std::endl;
+	for (size_t i = 0; i < room.getNumOfItems(); i++)
+	{
+		os << (i + 1) << ". " << room.getItemName(i) << " Rarity: ";
+		if (room.getItemRarity(i) == Common) os << "common.";
+		if (room.getItemRarity(i) == Uncommon) os << "uncommon.";
+		if (room.getItemRarity(i) == Epic) os << "epic.";
+		if (room.getItemRarity(i) == Legendary) os << "legendary.";
+		os << std::endl;
+	}
+	std::cout << "Monsters:" << std::endl;
+	for (size_t i = 0; i < room.getNumOfMonsters(); i++)
+	{
+		os << (i + 1) << ". " << room.getMonsterName(i) << " Level: " << room.getMonsterLevel(i) << std::endl;
+	}
+	return os;
+}
+
 char* Room::getName() const
 {
 	char* temp = new char[strlen(name) + 1];
@@ -143,6 +164,26 @@ Direction Room::canRoomConnect() const
 	if (south) return South;
 	if (west) return West;
 	return None;
+}
+
+const char* Room::getItemName(int index) const
+{
+	return items[index].getName();
+}
+
+const Rarity Room::getItemRarity(int index) const
+{
+	return items[index].getRarity();
+}
+
+const char* Room::getMonsterName(int index) const
+{
+	return monsters[index].getName();
+}
+
+const int Room::getMonsterLevel(int index) const
+{
+	return monsters[index].getLevel();
 }
 
 void Room::printRoom()

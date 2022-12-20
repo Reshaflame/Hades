@@ -27,6 +27,7 @@ Room* Data::addRoom(char* name)
 	Room* newArr = new Room[++num_of_rooms];
 	if (!newArr) return nullptr;
 	
+	if(num_of_rooms != 1)
 	memcpy_s(newArr, sizeof(Room) * (num_of_rooms - 1), rooms, sizeof(Room) * (num_of_rooms - 1));
 
 	newArr[num_of_rooms - 1] = Room(name);
@@ -52,6 +53,7 @@ Map* Data::addMap(char* name)
 	Map* newArr = new Map[++num_of_maps];
 	if (!newArr) return nullptr;
 	
+	if (num_of_maps != 1)
 	memcpy_s(newArr, sizeof(Map) * (num_of_maps - 1), maps, sizeof(Map) * (num_of_rooms - 1));
 
 	newArr[num_of_maps - 1] = Map(name);
@@ -66,8 +68,10 @@ Map* Data::addMap(char* name)
 	return &newArr[num_of_maps - 1];
 }
 
-Room* Data::getRoom(char* r_name) const
+Room* Data::getRoom(char* r_name)
 {
+	if (!r_name) return nullptr;
+
 	for (size_t i = 0; i < num_of_rooms; i++)
 	{
 		if (!strcmp(r_name, rooms[i].getName()))
@@ -77,65 +81,60 @@ Room* Data::getRoom(char* r_name) const
 	}
 	return nullptr;
 }
+
 bool Data::addItem(char* r_name, char* i_name)
 {
-	bool isItemExis = false;
+	if (!(r_name && i_name)) return false;
+
 	for (int i = 0; i < num_of_rooms; i++)
 	{
 		if (strcmp(rooms[i].getName(), r_name) == 0) {
-			isItemExis = true;
-			break;
+			if (!rooms[i].addItem(i_name)) return false;
+			return true;
 		}
 	}
-
-	if (isItemExis) {
-
-		rooms->addItem(i_name);
-		return true;
-	}
+	return false;
 }
+
 bool Data::addMonster(char* r_name, char* m_name)
 {
-	bool isMonsterExist = false;
+	if (!(r_name && m_name)) return false;
+
 	for (int i = 0; i < num_of_rooms; i++)
 	{
-		if (strcmp(rooms[i].getName(), r_name) == 0) 
-		{
-			isMonsterExist = true;
-			break;
+		if (strcmp(rooms[i].getName(), r_name) == 0) {
+			if (!rooms[i].addMonster(m_name)) return false;
+			return true;
 		}
-		
-		
-		
 	}
-	if (isMonsterExist)
-	{
-		rooms->addMonster(m_name);
-		return true;
-	}
-	
+	return false;
 }
 
-Map* Data::getMap(char* m_name) const
+Map* Data::getMap(char* m_name)
 {
+	if (!m_name) return nullptr;
+
 	for (int i = 0; i < num_of_maps; i++)
 	{
 		if (strcmp(maps[i].getName(), m_name) == 0)
 			return &maps[i];
 	}
+	return nullptr;
 }
 
 void Data::printData()
 {
+	std::cout << "Maps:" << std::endl;
+
 	for (int i = 0; i < num_of_maps; i++)
 	{
-		std::cout << maps[i].getName();
-		
+		std::cout << (i + 1) << ". " << maps[i].getName() << std::endl;
 	}
+
+	std::cout << std::endl << "Rooms:" << std::endl;
+
 	for (int i = 0; i < num_of_rooms; i++)
 	{
-		std::cout << rooms[i].getName();
-
+		std::cout << (i + 1) << ". " << rooms[i].getName() << std::endl;
 	}
 }
-

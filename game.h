@@ -24,7 +24,7 @@ public:
 	bool addMonsterToDataRoom(char* r_name, char* m_name);
 	void printData(); // prints only maps and rooms names.
 
-	// ?
+	// Almog:
 	Map* CombineCurrMapToMap(char* m_name); // (operator+=)
 	Map* CombineMapsToNew(char* new_m_name, char* m_name); // (operator+)
 
@@ -32,4 +32,5 @@ private:
 	Map* currentMap;
 	Data* data;
 };
+
 

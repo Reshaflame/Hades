@@ -1,6 +1,6 @@
 #pragma once
 
-enum  Rarity
+enum Rarity
 {
 	Common = 1,
 	Uncommon,
@@ -13,20 +13,22 @@ class Item
 public:
 
 	// Esty:
-	Item::Item();
+	Item();
 	Item(char* n);
+	Item(const Item& i);
 	~Item();
 
-	Rarity getRarity()const;
-	char* getName()const;
-	Item operator++();
-	void print();
+	Rarity getRarity() const;
+	const char* getName() const;
 
+	Item& operator++();
+	Item operator++(int);
+
+	// Almog:
+	void print();
 
 private:
 	Rarity rarity;
-	char* name;
+	const char* name;
 };
-
-
 

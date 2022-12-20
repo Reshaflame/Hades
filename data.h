@@ -27,9 +27,11 @@ public:
 
 	// Esty:
 	void printData(); 
+
 private:
-	int num_of_rooms;
-	int num_of_maps =;
+
+	int num_of_rooms = 0;
+	int num_of_maps = 0;
 
 	Map* maps;
 	Room* rooms;

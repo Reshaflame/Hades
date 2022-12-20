@@ -9,15 +9,18 @@ public:
 	Monster(char* n);
 	~Monster();
 
-	int getLevel()const;
-	char* getName()const;
+	int getLevel() const;
+	const char* getName() const;
+	
 	Monster& operator++();
+	Monster operator++(int);
 
+	// Almog:
 
-	// operator++
+	void print();
 
 private:
-	char* name;
+	const char* name;
 	int level;
 };
 

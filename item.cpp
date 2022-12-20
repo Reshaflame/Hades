@@ -1,59 +1,67 @@
+
 #include "item.h"
 #include <iostream>
-#include <string.h>
 
 using namespace std;
 
 Item::Item()
 {
-	rarity = Common;
 	name = nullptr;
+	rarity = Common;
 }
 
-Item::Item(char* n)
+Item::Item(char* name)
 {
-	char* temp_name = new char[strlen(n) + 1];
-	if (temp_name == nullptr){
-		throw "NoMemory";
-	}
-	
-	strncpy(temp_name, n, strlen(n) + 1);
+	if (!name) throw "Null argument!!";
+
+	char* temp_n = new char[strlen(name) + 1];
+	if (!temp_n) throw "no memory!";
+
+	strcpy_s(temp_n, (sizeof(char) * (strlen(name) + 1)), name);
+	temp_n[strlen(name)] = 0;
+	this->name = temp_n;
 	rarity = Common;
-	name = temp_name;
 }
+
 Item::~Item()
 {
 	delete[] name;
 }
 
-Rarity Item::getRarity()const
+Item::Item(const Item& item)
+{
+	rarity = item.rarity;
+	char* temp_n = new char[strlen(item.name) + 1];
+	if (!temp_n) throw "no memory!";
+
+	strcpy_s(temp_n, (sizeof(char) * (strlen(item.name) + 1)), name);
+	temp_n[strlen(item.name)- 1] = 0;
+	this->name = temp_n;
+}
+
+Rarity Item::getRarity() const
 {
 	return rarity;
 }
-char* Item::getName()const
-{
+
+const char* Item::getName() const
+{ 
 	return name;
 }
 
-Item Item::operator++() {
-	if (rarity == Common) 
-	{
-		rarity = Uncommon;
-	}
-	if (rarity == Uncommon) 
-	{
-		 rarity = Epic;
-	}
-	if (rarity == Epic)
-	{
-		rarity = Legendary;
-	} 
-	if (rarity == Legendary) 
-	{
-		rarity = Legendary;
-	}
-
+Item& Item::operator++() {
+	if (rarity == Common) rarity = Uncommon;
+	if (rarity == Uncommon) rarity = Epic;
+	if (rarity == Epic) rarity = Legendary;
+	if (rarity == Legendary) rarity = Legendary;
 	return *this;
+}
+
+Item Item::operator++(int)
+{
+	Item old = *this;
+	operator++();
+	return old;
 }
 
 void Item::print()
